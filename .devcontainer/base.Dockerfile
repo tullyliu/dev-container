@@ -21,7 +21,7 @@ ARG GRADLE_VERSION=""
 ENV SDKMAN_DIR="/usr/local/sdkman"
 ENV PATH="${PATH}:${SDKMAN_DIR}/java/current/bin:${SDKMAN_DIR}/maven/current/bin:${SDKMAN_DIR}/gradle/current/bin"
 COPY library-scripts/java-debian.sh library-scripts/maven-debian.sh library-scripts/gradle-debian.sh /tmp/library-scripts/
-RUN bash /tmp/library-scripts/java-debian.sh "lts" "${SDKMAN_DIR}" "${USERNAME}" "true" \
+RUN bash /tmp/library-scripts/java-debian.sh "21.0.0.r11-grl" "${SDKMAN_DIR}" "${USERNAME}" "true" \
     && if [ "${INSTALL_MAVEN}" = "true" ]; then bash /tmp/library-scripts/maven-debian.sh "${MAVEN_VERSION:-latest}" "${SDKMAN_DIR}" ${USERNAME} "true"; fi \
     && if [ "${INSTALL_GRADLE}" = "true" ]; then bash /tmp/library-scripts/gradle-debian.sh "${GRADLE_VERSION:-latest}" "${SDKMAN_DIR}" ${USERNAME} "true"; fi \
     && apt-get clean -y && rm -rf /var/lib/apt/lists/* /tmp/library-scripts
