@@ -1,1 +1,1 @@
-FROM tullyliu/dev-container:1.0
+FROM tullyliu/dev-container:2.0

@@ -16,7 +16,7 @@ RUN bash /tmp/library-scripts/common-debian.sh "${INSTALL_ZSH}" "${USERNAME}" "$
 ARG INSTALL_MAVEN="true"
 ARG MAVEN_VERSION=""
 # [Option] Install Gradle
-ARG INSTALL_GRADLE="false"
+ARG INSTALL_GRADLE="true"
 ARG GRADLE_VERSION=""
 ENV SDKMAN_DIR="/usr/local/sdkman"
 ENV PATH="${PATH}:${SDKMAN_DIR}/java/current/bin:${SDKMAN_DIR}/maven/current/bin:${SDKMAN_DIR}/gradle/current/bin"
@@ -48,8 +48,15 @@ ENV PIPX_HOME=/usr/local/py-utils \
 ENV PATH=${PATH}:${PIPX_BIN_DIR}
 COPY library-scripts/python-linux.sh /tmp/library-scripts/
 RUN bash /tmp/library-scripts/python-linux.sh "3.8.3" "/usr/local" "${PIPX_HOME}" "${USERNAME}" \ 
-    && apt-get clean -y && rm -rf /var/lib/apt/lists/* /tmp/library-scripts
+     && apt-get clean -y && rm -rf /var/lib/apt/lists/* /tmp/library-scripts
 
+
+ENV IDEA_URL=https://download.jetbrains.com/idea/ideaIC-2020.1.1.tar.gz \
+    PROJECTOR_DIR=/usr/local/projector \
+    SDKMAN_DIR=/usr/local/sdkman
+COPY library-scripts/projector-idea.sh library-scripts/ide-projector-launcher.sh /tmp/library-scripts/
+RUN bash /tmp/library-scripts/projector-idea.sh "${IDEA_URL}" "${PROJECTOR_DIR}" "${SDKMAN_DIR}" "${USERNAME}" \ 
+    && apt-get clean -y && rm -rf /var/lib/apt/lists/* /tmp/library-scripts
 # [Optional] Uncomment this section to install additional OS packages.
 #RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
 #     && apt-get -y install --no-install-recommends *** \
