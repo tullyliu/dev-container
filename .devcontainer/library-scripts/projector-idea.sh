@@ -84,10 +84,12 @@ if [ ! -d "${PROJECTOR_DIR}" ]; then
     find . -maxdepth 1 -type d -name * -execdir mv {} ${PROJECTOR_DIR}/ide \;
     
     # Process file layout
+    find ${PROJECTOR_DIR}/projector-server/projector-server/build/distributions -maxdepth 1 -type f -name projector-server-*.zip -exec mv {} ${PROJECTOR_DIR}/projector-server.zip \;
+
     mv ${PROJECTOR_DIR}/projector-server/projector-server/build/distributions/projector-server-1.0-SNAPSHOT.zip ${PROJECTOR_DIR}
-    unzip ${PROJECTOR_DIR}/projector-server-1.0-SNAPSHOT.zip -d ${PROJECTOR_DIR}
-    rm ${PROJECTOR_DIR}/projector-server-1.0-SNAPSHOT.zip
-    mv ${PROJECTOR_DIR}/projector-server-1.0-SNAPSHOT $PROJECTOR_DIR/ide/projector-server
+    unzip ${PROJECTOR_DIR}/projector-server.zip -d ${PROJECTOR_DIR}
+    rm ${PROJECTOR_DIR}/projector-server.zip
+    find ${PROJECTOR_DIR} -maxdepth 1 -type d -name projector-server-* -exec mv {} $PROJECTOR_DIR/ide/projector-server \;
     mv /tmp/library-scripts/ide-projector-launcher.sh $PROJECTOR_DIR/ide/bin
     # Clean    
     rm -rf ${PROJECTOR_DIR}/projector-server ${PROJECTOR_DIR}/download
