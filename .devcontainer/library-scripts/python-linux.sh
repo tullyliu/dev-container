@@ -77,7 +77,7 @@ if [ ! -d "${PYENV_HOME}" ]; then
     updaterc "export PYENV_ROOT=${PYENV_HOME}\nexport PATH=${PYENV_HOME}/bin:\$PATH\n if command -v pyenv 1>/dev/null 2>&1; then\n  eval \"\$(pyenv init -)\"\nfi"
 fi
 
-su ${USERNAME} -c "umask 0002 && export PYENV_ROOT=${PYENV_HOME} && export PATH=${PYENV_HOME}/bin:\$PATH && eval \"\$(pyenv init -)\" && pyenv --version && pyenv install ${PYTHON_VERSION} && pyenv global ${PYTHON_VERSION} && pyenv install 2.7.18 && python -m pip install --no-cache-dir --upgrade pip"
+su ${USERNAME} -c "umask 0002 && export PYENV_ROOT=${PYENV_HOME} && export PATH=${PYENV_HOME}/bin:\$PATH && eval \"\$(pyenv init -)\" && pyenv --version  && pyenv install 2.7.18 && pyenv install ${PYTHON_VERSION} && pyenv global ${PYTHON_VERSION} && python -m pip install --no-cache-dir --upgrade pip"
 
 # If not installing python tools, exit
 if [ "${INSTALL_PYTHON_TOOLS}" != "true" ]; then
