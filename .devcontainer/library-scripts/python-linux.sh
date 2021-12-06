@@ -117,7 +117,7 @@ chmod g+s ${PIPX_HOME} ${PIPX_BIN_DIR}
 echo "Installing Python tools..."
 export PYTHONUSERBASE=/tmp/pip-tmp
 export PIP_CACHE_DIR=/tmp/pip-tmp/cache
-su ${USERNAME} -c "umask 0002 && export PATH=${PYENV_HOME}/bin:$PATH && eval \"\$(pyenv init -)\" && pip install --disable-pip-version-check --no-warn-script-location  --no-cache-dir --user pipx"
+su ${USERNAME} -c "umask 0002 && export PATH=${PYENV_HOME}/bin:$PATH && eval \"\$(pyenv init --path)\" && eval \"\$(pyenv init -)\" && pip install --disable-pip-version-check --no-warn-script-location  --no-cache-dir --user pipx"
 /tmp/pip-tmp/bin/pipx install --pip-args=--no-cache-dir pipx
 echo "${DEFAULT_UTILS}" | xargs -n 1 /tmp/pip-tmp/bin/pipx install --system-site-packages --pip-args '--no-cache-dir --force-reinstall'
 rm -rf /tmp/pip-tmp
