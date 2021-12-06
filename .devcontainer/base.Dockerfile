@@ -19,12 +19,16 @@ ARG MAVEN_VERSION=""
 ARG INSTALL_GRADLE="true"
 ARG GRADLE_VERSION=""
 ENV SDKMAN_DIR="/usr/local/sdkman"
+ENV GRL_VERSION="21.3.0.r17-grl"
 ENV PATH="${PATH}:${SDKMAN_DIR}/java/current/bin:${SDKMAN_DIR}/maven/current/bin:${SDKMAN_DIR}/gradle/current/bin"
 COPY library-scripts/java-debian.sh library-scripts/maven-debian.sh library-scripts/gradle-debian.sh /tmp/library-scripts/
-RUN bash /tmp/library-scripts/java-debian.sh "21.0.0.r11-grl" "${SDKMAN_DIR}" "${USERNAME}" "true" \
+RUN bash /tmp/library-scripts/java-debian.sh "${GRL_VERSION}" "${SDKMAN_DIR}" "${USERNAME}" "true" \
     && if [ "${INSTALL_MAVEN}" = "true" ]; then bash /tmp/library-scripts/maven-debian.sh "${MAVEN_VERSION:-latest}" "${SDKMAN_DIR}" ${USERNAME} "true"; fi \
     && if [ "${INSTALL_GRADLE}" = "true" ]; then bash /tmp/library-scripts/gradle-debian.sh "${GRADLE_VERSION:-latest}" "${SDKMAN_DIR}" ${USERNAME} "true"; fi \
     && apt-get clean -y && rm -rf /var/lib/apt/lists/* /tmp/library-scripts
+
+# install graalvm native image
+RUN su vscode -c "umask 0002 && cd ${SDKMAN_DIR}/candidates/java/${GRL_VERSION}/bin && ./gu install native-image"
 
 # [Option] Install Node.js
 ARG INSTALL_NODE="true"
@@ -51,7 +55,7 @@ RUN bash /tmp/library-scripts/python-linux.sh "3.8.3" "/usr/local" "${PIPX_HOME}
      && apt-get clean -y && rm -rf /var/lib/apt/lists/* /tmp/library-scripts
 
 
-ENV IDEA_URL=https://download.jetbrains.com/idea/ideaIC-2020.1.1.tar.gz \
+ENV IDEA_URL=https://download.jetbrains.com/idea/ideaIC-2021.3.tar.gz \
     PROJECTOR_DIR=/usr/local/projector \
     SDKMAN_DIR=/usr/local/sdkman
 COPY library-scripts/projector-idea.sh library-scripts/ide-projector-launcher.sh /tmp/library-scripts/
