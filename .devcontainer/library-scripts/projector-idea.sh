@@ -86,7 +86,7 @@ if [ ! -d "${PROJECTOR_DIR}" ]; then
     # Process file layout
     find ${PROJECTOR_DIR}/projector-server/projector-server/build/distributions -maxdepth 1 -type f -name projector-server-*.zip -exec mv {} ${PROJECTOR_DIR}/projector-server.zip \;
 
-    mv ${PROJECTOR_DIR}/projector-server/projector-server/build/distributions/projector-server.zip ${PROJECTOR_DIR}
+    mv ${PROJECTOR_DIR}/projector-server.zip ${PROJECTOR_DIR}
     unzip ${PROJECTOR_DIR}/projector-server.zip -d ${PROJECTOR_DIR}
     rm ${PROJECTOR_DIR}/projector-server.zip
     find ${PROJECTOR_DIR} -maxdepth 1 -type d -name projector-server-* -exec mv {} $PROJECTOR_DIR/ide/projector-server \;
