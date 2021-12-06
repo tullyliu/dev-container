@@ -59,7 +59,7 @@ ENV IDEA_URL=https://download.jetbrains.com/idea/ideaIC-2021.3.tar.gz \
     PROJECTOR_DIR=/usr/local/projector \
     SDKMAN_DIR=/usr/local/sdkman
 COPY library-scripts/projector-idea.sh library-scripts/ide-projector-launcher.sh /tmp/library-scripts/
-RUN bash /tmp/library-scripts/projector-idea.sh "${IDEA_URL}" "${PROJECTOR_DIR}" "${SDKMAN_DIR}" "${USERNAME}" \ 
+RUN bash /tmp/library-scripts/projector-idea.sh "${IDEA_URL}" "${PROJECTOR_DIR}" "${SDKMAN_DIR}" "${USERNAME}" "true" "${GRL_VERSION}" \ 
     && apt-get clean -y && rm -rf /var/lib/apt/lists/* /tmp/library-scripts
 # [Optional] Uncomment this section to install additional OS packages.
 #RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \

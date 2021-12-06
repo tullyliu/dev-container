@@ -5,7 +5,7 @@ export PROJECTOR_DIR=${2:-"/usr/local/projector"}
 SDKMAN_DIR=${3:-"/usr/local/sdkman"}
 USERNAME=${4:-"automatic"}
 UPDATE_RC=${5:-"true"}
-
+JAVA_VERSION=${6:-""}
 set -e
 
 
@@ -74,7 +74,7 @@ if [ ! -d "${PROJECTOR_DIR}" ]; then
         https://github.com/JetBrains/projector-server.git ${PROJECTOR_DIR}/projector-server 2>&1
     
     # Build projector server
-    source ${SDKMAN_DIR}/bin/sdkman-init.sh && sdk use java 21.0.0.r11-grl  
+    source ${SDKMAN_DIR}/bin/sdkman-init.sh && sdk use java ${JAVA_VERSION}  
     cd ${PROJECTOR_DIR}/projector-server 
     ./gradlew clean && ./gradlew :projector-server:distZip 
 
