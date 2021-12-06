@@ -37,8 +37,8 @@ ENV NVM_DIR=/usr/local/share/nvm
 ENV NVM_SYMLINK_CURRENT=true \
     PATH="${NVM_DIR}/current/bin:${PATH}"
 COPY library-scripts/node-debian.sh /tmp/library-scripts/
-#RUN if [ "$INSTALL_NODE" = "true" ]; then bash /tmp/library-scripts/node-debian.sh "${NVM_DIR}" "${NODE_VERSION}" "${USERNAME}"; fi \
-#    && apt-get clean -y && rm -rf /var/lib/apt/lists/* /tmp/library-scripts
+RUN if [ "$INSTALL_NODE" = "true" ]; then bash /tmp/library-scripts/node-debian.sh "${NVM_DIR}" "${NODE_VERSION}" "${USERNAME}"; fi \
+    && apt-get clean -y && rm -rf /var/lib/apt/lists/* /tmp/library-scripts
 
 # Install JDK 8 - version of "" installs latest
 ARG JDK8_VERSION=""
@@ -51,8 +51,8 @@ ENV PIPX_HOME=/usr/local/py-utils \
     PIPX_BIN_DIR=/usr/local/py-utils/bin
 ENV PATH=${PATH}:${PIPX_BIN_DIR}
 COPY library-scripts/python-linux.sh /tmp/library-scripts/
-#RUN bash /tmp/library-scripts/python-linux.sh "3.8.3" "/usr/local" "${PIPX_HOME}" "${USERNAME}" \ 
-#     && apt-get clean -y && rm -rf /var/lib/apt/lists/* /tmp/library-scripts
+RUN bash /tmp/library-scripts/python-linux.sh "3.8.3" "/usr/local" "${PIPX_HOME}" "${USERNAME}" \ 
+     && apt-get clean -y && rm -rf /var/lib/apt/lists/* /tmp/library-scripts
 
 
 ENV IDEA_URL=https://download.jetbrains.com/idea/ideaIC-2021.3.tar.gz \
