@@ -64,7 +64,7 @@ if [ ! -d "${PROJECTOR_DIR}" ]; then
     usermod -a -G projector ${USERNAME}
     umask 0002
     # Install 
-    mkdir -p ${PROJECTOR_DIR}/projector-server ${PROJECTOR_DIR}/download ${PROJECTOR_DIR}/ide
+    mkdir -p ${PROJECTOR_DIR}/projector-server ${PROJECTOR_DIR}/download 
     git clone --depth=1 \
         -c core.eol=lf \
         -c core.autocrlf=false \
