@@ -19,7 +19,7 @@ ARG MAVEN_VERSION=""
 ARG INSTALL_GRADLE="true"
 ARG GRADLE_VERSION=""
 ENV SDKMAN_DIR="/usr/local/sdkman"
-ENV GRL_VERSION="21.0.0.r11-grl"
+ENV GRL_VERSION="22.0.0.2.r11-grl"
 ENV PATH="${PATH}:${SDKMAN_DIR}/java/current/bin:${SDKMAN_DIR}/maven/current/bin:${SDKMAN_DIR}/gradle/current/bin"
 COPY library-scripts/java-debian.sh library-scripts/maven-debian.sh library-scripts/gradle-debian.sh /tmp/library-scripts/
 RUN bash /tmp/library-scripts/java-debian.sh "${GRL_VERSION}" "${SDKMAN_DIR}" "${USERNAME}" "true" \
@@ -29,6 +29,14 @@ RUN bash /tmp/library-scripts/java-debian.sh "${GRL_VERSION}" "${SDKMAN_DIR}" "$
 
 # install graalvm native image
 RUN su vscode -c "umask 0002 && cd ${SDKMAN_DIR}/candidates/java/${GRL_VERSION}/bin && ./gu install native-image"
+
+# Install JDK 8 - version of "" installs latest
+ARG JDK8_VERSION=""
+RUN su vscode -c "umask 0002 && . /usr/local/sdkman/bin/sdkman-init.sh && if [ "${JDK8_VERSION}" = "" ]; then \
+        sdk install java \$(sdk ls java | grep -m 1 -o ' 8.*.hs-adpt ' | awk '{print \$NF}'); \
+        else sdk install java '${JDK8_VERSION}'; fi \
+        && sdk use java ${GRL_VERSION} " 
+
 
 # [Option] Install Node.js
 ARG INSTALL_NODE="true"
@@ -40,11 +48,7 @@ COPY library-scripts/node-debian.sh /tmp/library-scripts/
 RUN if [ "$INSTALL_NODE" = "true" ]; then bash /tmp/library-scripts/node-debian.sh "${NVM_DIR}" "${NODE_VERSION}" "${USERNAME}"; fi \
     && apt-get clean -y && rm -rf /var/lib/apt/lists/* /tmp/library-scripts
 
-# Install JDK 8 - version of "" installs latest
-ARG JDK8_VERSION=""
-RUN su vscode -c "umask 0002 && . /usr/local/sdkman/bin/sdkman-init.sh && if [ "${JDK8_VERSION}" = "" ]; then \
-        sdk install java \$(sdk ls java | grep -m 1 -o ' 8.*.hs-adpt ' | awk '{print \$NF}'); \
-        else sdk install java '${JDK8_VERSION}'; fi" 
+
      
 # Setup default python tools in a venv via pipx to avoid conflicts
 ENV PIPX_HOME=/usr/local/py-utils \
@@ -55,7 +59,7 @@ RUN bash /tmp/library-scripts/python-linux.sh "3.8.3" "/usr/local" "${PIPX_HOME}
      && apt-get clean -y && rm -rf /var/lib/apt/lists/* /tmp/library-scripts
 
 
-ENV IDEA_URL=https://download.jetbrains.com/idea/ideaIC-2021.3.tar.gz \
+ENV IDEA_URL=https://download.jetbrains.com/idea/ideaIC-2022.1.tar.gz \
     PROJECTOR_DIR=/usr/local/projector \
     SDKMAN_DIR=/usr/local/sdkman
 COPY library-scripts/projector-idea.sh library-scripts/ide-projector-launcher.sh /tmp/library-scripts/
