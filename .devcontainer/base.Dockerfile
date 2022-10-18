@@ -59,7 +59,7 @@ RUN bash /tmp/library-scripts/python-linux.sh "3.8.3" "/usr/local" "${PIPX_HOME}
      && apt-get clean -y && rm -rf /var/lib/apt/lists/* /tmp/library-scripts
 
 
-ENV IDEA_URL=https://download.jetbrains.com/idea/ideaIC-2022.1.tar.gz \
+ENV IDEA_URL=https://download.jetbrains.com/idea/ideaIC-2022.2.3.tar.gz \
     PROJECTOR_DIR=/usr/local/projector \
     SDKMAN_DIR=/usr/local/sdkman
 COPY library-scripts/projector-idea.sh library-scripts/ide-projector-launcher.sh /tmp/library-scripts/
